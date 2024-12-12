@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mis_reservas_screen.dart';
 
 class CrudMesasScreen extends StatefulWidget {
   @override
@@ -10,9 +11,38 @@ class _CrudMesasScreenState extends State<CrudMesasScreen> {
     {"id": 1, "nombre": "Mesa 1", "disponible": true},
     {"id": 2, "nombre": "Mesa 2", "disponible": false},
     {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    {"id": 1, "nombre": "Mesa 1", "disponible": true},
+    {"id": 2, "nombre": "Mesa 2", "disponible": false},
+    {"id": 3, "nombre": "Mesa 3", "disponible": true},
+    
   ];
 
-  // Método para mostrar el cuadro de reserva
+  List<Map<String, dynamic>> reservas = [];
+
   void _showReservationDialog(BuildContext context, Map<String, dynamic> mesa) {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController timeController = TextEditingController();
@@ -66,7 +96,7 @@ class _CrudMesasScreenState extends State<CrudMesasScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Cerrar el diálogo
+                Navigator.pop(context);
               },
               child: Text("Cancelar"),
             ),
@@ -75,9 +105,15 @@ class _CrudMesasScreenState extends State<CrudMesasScreen> {
                 if (nameController.text.isNotEmpty &&
                     timeController.text.isNotEmpty) {
                   setState(() {
-                    mesa['disponible'] = false; // Marcar la mesa como no disponible
+                    mesa['disponible'] = false;
+                    reservas.add({
+                      "numeroMesa": mesa['nombre'],
+                      "nombreReservante": nameController.text,
+                      "horaReserva": timeController.text,
+                      "agregados": notesController.text,
+                    });
                   });
-                  Navigator.pop(context); // Cerrar el diálogo
+                  Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Reservado con éxito")),
                   );
@@ -127,6 +163,18 @@ class _CrudMesasScreenState extends State<CrudMesasScreen> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.event_seat),
+              title: Text("Mis Reservas"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MisReservasScreen(reservas: reservas),
+                  ),
+                );
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.logout),
               title: Text("Cerrar Sesión"),
               onTap: () {
@@ -136,29 +184,44 @@ class _CrudMesasScreenState extends State<CrudMesasScreen> {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: mesas.length,
-        itemBuilder: (context, index) {
-          final mesa = mesas[index];
-          return Card(
-            color: mesa['disponible'] ? Colors.green[100] : Colors.red[100],
-            child: ListTile(
-              title: Text(mesa['nombre']),
-              subtitle: Text(
-                mesa['disponible'] ? "Disponible" : "No Disponible",
-                style: TextStyle(
-                  color: mesa['disponible'] ? Colors.green : Colors.red,
-                ),
-              ),
-              trailing: mesa['disponible']
-                  ? ElevatedButton(
-                      onPressed: () => _showReservationDialog(context, mesa),
-                      child: Text("Reservar"),
-                    )
-                  : null,
+      body: Column(
+        children: [
+          // Imagen con capacidad de zoom en la parte superior
+          InteractiveViewer(
+            child: Image.asset(
+              'images/Restaurante.png',
+              height: 200,
+              width: double.infinity,
+              fit: BoxFit.contain, // Para asegurar que toda la imagen se vea
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: mesas.map((mesa) {
+                  return Card(
+                    color: mesa['disponible'] ? Colors.green[100] : Colors.red[100],
+                    child: ListTile(
+                      title: Text(mesa['nombre']),
+                      subtitle: Text(
+                        mesa['disponible'] ? "Disponible" : "No Disponible",
+                        style: TextStyle(
+                          color: mesa['disponible'] ? Colors.green : Colors.red,
+                        ),
+                      ),
+                      trailing: mesa['disponible']
+                          ? ElevatedButton(
+                              onPressed: () => _showReservationDialog(context, mesa),
+                              child: Text("Reservar"),
+                            )
+                          : null,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

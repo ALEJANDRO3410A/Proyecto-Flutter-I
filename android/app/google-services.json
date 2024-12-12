@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "83725086983",
+    "project_id": "proyecto-personal-alejandro",
+    "storage_bucket": "proyecto-personal-alejandro.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83725086983:android:75df6fec1d866a13cbd5a2",
+        "android_client_info": {
+          "package_name": "com.proyecto_personal_alejandro.restaurant_reservations"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbB3B_3uiicTzrYhB63M2jGGjPhK3X9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83725086983:android:cc44b3357ef1c14bcbd5a2",
+        "android_client_info": {
+          "package_name": "resta.a.o"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbB3B_3uiicTzrYhB63M2jGGjPhK3X9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

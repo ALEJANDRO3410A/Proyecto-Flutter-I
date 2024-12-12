@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'crud_mesas_screen.dart'; // Importa la pantalla CRUD
+import 'registro.dart'; // Importa la pantalla de registro
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -90,6 +91,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text("Iniciar Sesión"),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    // Navegar a la pantalla de registro
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegistroScreen()),
+                    );
+                  },
+                  child: Text(
+                    "¿No tienes cuenta? Regístrate aquí",
+                    style: TextStyle(color: Colors.blue),
                   ),
                 ),
               ],
