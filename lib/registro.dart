@@ -14,6 +14,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
+  static const String registroExitoso = "Registro exitoso";
+
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -40,19 +42,32 @@ class _RegistroScreenState extends State<RegistroScreen> {
 
         // Navegar al Login
         Navigator.pushReplacementNamed(context, '/');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Registro exitoso")),
-        );
+        _mostrarMensaje(context, registroExitoso);
       } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? "Ocurrió un error")),
-        );
+        _mostrarMensaje(context, e.message ?? "Ocurrió un error");
+      } catch (e) {
+        _mostrarMensaje(context, "Error al guardar datos en Firestore");
       } finally {
         setState(() {
           _isLoading = false;
         });
       }
     }
+  }
+
+  void _mostrarMensaje(BuildContext context, String mensaje) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mensaje)),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    super.dispose();
   }
 
   @override
